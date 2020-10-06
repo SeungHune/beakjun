@@ -1,13 +1,13 @@
 n, m = map(int, input().split())
 num_list = [1+_ for _ in range(n)]
-# print(num_list)
 check_list = [False] * n
-# print(check_list)
 ans_list = []
+last = []
 
 def back(cnt):
     if cnt == m:
-        print(*ans_list)
+        last.append(list(ans_list))
+        print(ans_list)
         return
 
     for i in range(n):
@@ -16,10 +16,12 @@ def back(cnt):
 
         check_list[i] = True
         ans_list.append(num_list[i])
-        # print(ans_list)
-
         back(cnt + 1)
         ans_list.pop()
         check_list[i] = False
 
 back(0)
+print(last)
+for i in last:
+    sorted(i)
+print(last)
