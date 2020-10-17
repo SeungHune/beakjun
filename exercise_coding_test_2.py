@@ -1,3 +1,5 @@
+# 해시 - 전화번호 목록
+
 def solution(phone_book):
     phone_book.sort(key = len)
     for i in range(len(phone_book)):

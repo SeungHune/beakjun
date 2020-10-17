@@ -1,47 +1,44 @@
+# 해시 - 베스트앨범
+
 def solution(genres, plays):
-    kind_genres = list(set(genres))
-    temp = []
+    identity = list(map(int, range(len(genres))))
+    mylist = []
 
-    for genre in kind_genres:
-        play_genre = 0
-        for i in range(len(genres)):
-            if genre == genres[i]:
-                play_genre += plays[i]
-        temp.append([genre, play_genre])
+    for i in range(len(identity)):
+        mylist.append([identity[i], genres[i], plays[i]])
+    # print(mylist)
+    isol_genres = list(set(genres))
+    find_best_genre = []
 
-    temp.sort(key=lambda x : x[1], reverse=True)
+    for gen in isol_genres:
+        gen_count = 0
+        for item in mylist:
+            if item[1] == gen:
+                gen_count += item[2]
+        find_best_genre.append([gen, gen_count])
 
-    anslist = [[] * _ for _ in range(len(temp))]
-    for i in range(len(temp)):
-        for j in range(len(plays)):
-            if temp[i][0] == genres[j]:
-                anslist[i].append(plays[j])
+    # print(find_best_genre)
+    find_best_genre.sort(key=lambda x: -x[1])
+    # print("find_best_genre :",find_best_genre)
+    mylist.sort(key=lambda x: (-x[2], x[0]))
+    # print("mylist :",mylist)
 
-    for a in anslist:
-        a.sort(reverse=True)
+    answer = []
+    for i in range(len(find_best_genre)):
+        genre = find_best_genre[i][0]
+        control = 0
+        sub_control = 0
+        while(control < 1):
+            if sub_control > len(mylist):
+                break
+            for item in mylist:
+                if item[1] == genre:
+                    answer.append(item[0])
+                    control += 1
+                    if control >= 2:
+                        break
+            sub_control += 1
+    return answer
 
-    ans = []
-    for i in range(len(anslist)):
-        if len(anslist[i]) == 1:
-           ans.append(plays.index(anslist[i][0]))
-        else:
-            cnt = 0
-            print("anslist[i] : ",anslist[i])
-            for j in range(len(anslist[i])):
-                print(temp[i][0],genres[plays.index(anslist[i][j])])
-                if temp[i][0] == genres[plays.index(anslist[i][j])]:
-                    print("hit!")
-                    ans.append(plays.index(anslist[i][j]))
-                    cnt += 1
-                else:
-                    t = 0
-                    while temp[i][0] != genres[plays.index(anslist[i][j])] + t:
-                        print(temp[i][0], genres[plays.index(anslist[i][j])] + t)
-                        t += 1
-                    ans.append(plays.index((anslist[i][j])) + t)
-                if cnt == 2 : break
-
-    return temp, anslist, ans
-
-print(solution(["classic","classic", "pop", "classic", "classic", "pop"]
-               ,[500, 600, 600, 150, 800, 2500]))
+print(solution(["classic", "pop", "classic", "classic", "pop"],
+               [500, 600, 150, 800, 2500]))

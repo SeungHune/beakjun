@@ -13,7 +13,7 @@ def solution(temp):
             mylist.append(temp[j*cut_num : (j+1)*cut_num])
             if 0 < len(temp[(j+1)*cut_num:]) and len(temp[(j+1)*cut_num:]) < cut_num :
                 mylist.append(temp[(j+1)*cut_num:])
-        # print(mylist)
+        print(mylist)
         mylist.append(0)
         count = 1
         for i in range(len(mylist) - 1):
@@ -25,14 +25,14 @@ def solution(temp):
                     count = 1
                 else:
                     ans = ans + str(mylist[i])
-        # print(ans)
-        # print(len(ans))
+        print(ans)
+        print(len(ans))
         if len(ans) < shortest :
             shortest = len(ans)
         ans = ""
     return shortest
 
-# print(solution("aabbaccc"))
+print(solution("aabbaccc"))
 # print(solution("ababcdcdababcdcd"))
 # print(solution("abcabcdede"))
 # print(solution("abcabcabcabcdededededede"))

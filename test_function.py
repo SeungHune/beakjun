@@ -1,30 +1,28 @@
-def solution(cacheSize, cities):
-    new_cities = []
-    for city in cities:
-        new_cities.append(str(city).upper())
+from collections import deque
+
+def bfs(start, graph, visited):
+    que = deque([start])
+    visited[start] = True
+    result = []
+    while que:
+        v = que.popleft()
+        for i in range(len(graph)):
+            if graph[v][i] == 1 and visited[i] == False:
+                que.append(i)
+                visited[i] = True
+    return result
+
+def solution(n, edge):
     answer = 0
-    chache = [0] * cacheSize
+    graph = [[0] * n  for _ in range(n)]
+    for line in edge:
+        graph[line[0]-1][line[1]-1] = 1
+        graph[line[1]-1][line[0]-1] = 1
+    print(graph)
+    visited = [False] * n
+    print(visited)
+    answer = bfs(0,graph,visited)
 
-    if cacheSize == 0:
-        answer = len(cities) * 5
-    else:
-        for i in range(len(new_cities)):
-            if new_cities[i] in chache:
-                answer += 1
-                temp =
-
-            else:
-                answer += 5
-                for j in range(len(chache)):
-                    if chache[j] == 0:
-                        chache[j] = new_cities[i]
-                    else:
-                        chache[0] = new_cities[i]
-                    print(chache)
-            print("-----------")
     return answer
 
-# print(solution(3, ["Jeju", "Pangyo", "Seoul",
-#           "NewYork", "LA", "Jeju", "Pangyo", "Seoul", "NewYork", "LA"]))
-
-print(solution(2, ["Jeju", "Pangyo", "NewYork", "newyork"]))
+print(solution(6,[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]))

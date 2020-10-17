@@ -1,3 +1,5 @@
+# 해시 - 위장
+
 def solution(clothes):
     kind = []
     for i in range(len(clothes)):

@@ -22,3 +22,4 @@ def solution(s):
     return answer
 
 print(solution("{{2},{2,1},{2,1,3},{2,1,3,4}}"))
+print(solution("{{1,2,3},{2},{1,2},{1,2,3,4}}"))
