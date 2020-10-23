@@ -1,5 +1,3 @@
-a = [1,2,3,4,5,6]
-s = a.index(2)
-print(s)
-new = a[s:]
-print(new)
+temp = [1,2,3,4,5,6]
+a,b,c = temp.partition(3)
+print(a,b,c)
