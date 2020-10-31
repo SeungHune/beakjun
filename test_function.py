@@ -1,28 +1,27 @@
-from collections import deque
+def solution(n, delivery):
+    delivery.sort(reverse= True, key=lambda x:x[2])
+    # print(delivery)
+    mylist = ["?"] * n
+    # print(mylist)
+    for dv in delivery:
+        if dv[2] == 1:
+            mylist[dv[0]-1] = "O"
+            mylist[dv[1]-1] = "O"
+        elif dv[2] == 0:
+            if mylist[dv[0]-1] == "O":
+                mylist[dv[1]-1] = "X"
+            elif mylist[dv[0]-1] == "X":
+                mylist[dv[1]-1] = "?"
+            elif mylist[dv[1]-1] == "O":
+                mylist[dv[0]-1] = "X"
+            elif mylist[dv[1]-1] == "X":
+                mylist[dv[0]-1] = "?"
 
-def bfs(start, graph, visited):
-    que = deque([start])
-    visited[start] = True
-    result = []
-    while que:
-        v = que.popleft()
-        for i in range(len(graph)):
-            if graph[v][i] == 1 and visited[i] == False:
-                que.append(i)
-                visited[i] = True
-    return result
-
-def solution(n, edge):
-    answer = 0
-    graph = [[0] * n  for _ in range(n)]
-    for line in edge:
-        graph[line[0]-1][line[1]-1] = 1
-        graph[line[1]-1][line[0]-1] = 1
-    print(graph)
-    visited = [False] * n
-    print(visited)
-    answer = bfs(0,graph,visited)
-
+    # print(mylist)
+    answer = ''
+    for a in mylist:
+        answer += a
     return answer
 
-print(solution(6,[[3, 6], [4, 3], [3, 2], [1, 3], [1, 2], [2, 4], [5, 2]]))
+# print(solution(6,[[1,3,1],[3,5,0],[5,4,0],[2,5,0]]))
+print(solution(7,[[5,6,0],[1,3,1],[1,5,0],[7,6,0],[3,7,1],[2,5,0]]))

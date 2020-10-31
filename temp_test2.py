@@ -1,53 +1,59 @@
-import copy
+from collections import deque
+import itertools
 
-def powerset(s):
-    x = len(s)
-    masks = [1 << i for i in range(x)]
-    for i in range(1 << x):
-        yield [ss for mask, ss in zip(masks, s) if i & mask]
+dx = [-1, 1, 0, 0]
+dy = [0, 0, -1, 1]
 
-def solution(orders, course):
-    orders.sort(key=len)
-    temp = []
-    for item in orders:
-        for i in range(len(item)):
-            temp.append(item[i])
+def bfs(graph, value, x, y, visited):
+    # print("bfs 들어옴")
+    que = deque()
+    que.append([x, y])
+    visited[x][y] = True
+    result = [graph[x][y]]
+    while que:
+        # print(que)
+        x,y = que.popleft()
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+            if nx < 0 or nx >= len(graph) or ny < 0 or ny >= len(graph):
+                continue
+            else:
+                if not visited[nx][ny] and graph[nx][ny] == value :
+                    visited[nx][ny] = True
+                    que.append([nx, ny])
+                    result.append(graph[nx][ny])
+    # print(result)
+    return result, visited
 
-    temp = list(set(temp))
-    power = list(powerset(temp))
+def solution(v):
+    answer = [0] * 3
+    visited = [[False for col in range(len(v))] for row in range(len(v))]
+    check = list(itertools.chain(*visited))
+    # print(visited)
+    # print(check)
+    result_list = []
+    while False in check:
+        for i in range(len(v)):
+            for j in range(len(v)):
+                if not visited[i][j]:
+                    result, visited = bfs(v,v[i][j],i,j,visited)
+                    # print(result, new_visited)
+                    result_list.append(result)
+                    check = list(itertools.chain(*visited))
 
-    temp = copy.deepcopy(power)
-    for sub in power:
-        if len(sub) not in course:
-            temp.remove(sub)
+    # print(result_list)
+    for semi in result_list:
+        if 0 in semi:
+            answer[0] += 1
+            continue
+        elif 1 in semi:
+            answer[1] += 1
+            continue
+        elif 2 in semi:
+            answer[2] += 1
+            continue
+    return answer
 
-    sub_list = []
-    for item in temp:
-        temp_str = ""
-        for i in range(len(item)):
-            temp_str += item[i]
-        sub_list.append(temp_str)
-
-    how_many_list = [0 * _ for _ in range(len(sub_list))]
-    for a in range(len(sub_list)):
-        combo = sub_list[a]
-        for custom_combo in orders:
-            check_combo = [0 * _ for _ in range(len(sub_list[a]))]
-            for i in range(len(combo)):
-                for j in range(len(custom_combo)):
-                    if custom_combo[j].find(combo[i]) != -1 :
-                        check_combo[i] = 1
-            if sum(check_combo) != 0:
-                how_many_list[a] += 1
-
-
-    a = list(zip(sub_list,how_many_list))
-    print(sub_list)
-    print(how_many_list)
-    print(a)
-    return orders
-
-
-# print(solution(["ABCFG", "AC", "CDE", "ACDE", "BCFG", "ACDEH"],[2,3,4]))
-print(solution(["ABCDE", "AB", "CD", "ADE", "XYZ", "XYZ", "ACD"],[2,3,5]))
-# print(solution(["XYZ", "XWY", "WXA"],[2,3,4]))
+print(solution([[0,0,1,1],[1,1,1,1],[2,2,2,1],[0,0,0,2]]))
+print(solution([[0,0,1],[2,2,1],[0,0,0]]))
