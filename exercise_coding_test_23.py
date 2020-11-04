@@ -1,4 +1,4 @@
-# Summer/Winter - 지형 이동 예제만 통과..... 크루스카 알고리즘은 또뭐야 ㅅㅂ
+# Summer/Winter - 지형 이동 예제만 통과..... 크루스카 알고리즘은 또뭐야
 
 from collections import deque
 import itertools
@@ -108,7 +108,7 @@ def solution(land, height):
                 gap_graph['edges'].append((min_gap,i,j))
 
     # print(gap_list)
-    # print(gap_graph)
+    print(gap_graph)
     temp = kruskal(gap_graph)
     answer = 0
     for i in temp:
